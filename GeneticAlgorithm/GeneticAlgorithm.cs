@@ -4,7 +4,7 @@ public abstract class GeneticAlgorithm<T> where T : ISpecimen, new()
 {
     private readonly int _populationSize;
     protected int CurrentGeneration { get; private set; }
-    protected List<T> Population { get; private set; }
+    protected T[] Population { get; private set; }
 
     protected GeneticAlgorithm(int populationSize)
     {
@@ -12,9 +12,9 @@ public abstract class GeneticAlgorithm<T> where T : ISpecimen, new()
         Population = InitPopulation();
     }
 
-    public abstract void Evolve(int maxGenerations);
+    public abstract void Evolve(int generations);
 
-    protected void UpdatePopulation(List<T> newPopulation)
+    protected void UpdatePopulation(T[] newPopulation)
     {
         Population = newPopulation;
         CurrentGeneration++;
@@ -22,7 +22,10 @@ public abstract class GeneticAlgorithm<T> where T : ISpecimen, new()
 
     protected void MutateEach(int points)
     {
-        Population.ForEach(specimen => specimen.Mutate(points));
+        foreach (var specimen in Population)
+        {
+            specimen.Mutate(points);
+        }
     }
 
     private double GetCurrentAverageFitness()
@@ -43,14 +46,16 @@ public abstract class GeneticAlgorithm<T> where T : ISpecimen, new()
     protected T TournamentSelection(int tournamentSize)
     {
         var random = new Random();
-        var tournament = new List<T>();
+        var tournament = new T[tournamentSize];
 
         for (var i = 0; i < tournamentSize; i++)
-            tournament.Add(Population[random.Next(Population.Count)]);
+        {
+            tournament[i] = Population[random.Next(Population.Length)];
+        }
 
         return (T)tournament.OrderByDescending(specimen => specimen.GetFitness()).First().Clone();
     }
-
+    
     protected void LogCurrentPopulation()
     {
         Console.WriteLine(
@@ -59,12 +64,15 @@ public abstract class GeneticAlgorithm<T> where T : ISpecimen, new()
             " | Avg: " + Math.Round(GetCurrentAverageFitness(), 2)
         );
     }
-
-    private List<T> InitPopulation()
+    
+    private T[] InitPopulation()
     {
-        var population = new List<T>();
+        var population = new T[_populationSize];
 
-        for (var i = 0; i < _populationSize; i++) population.Add(new T());
+        for (var i = 0; i < _populationSize; i++)
+        {
+            population[i] = new T();
+        }
 
         return population;
     }
