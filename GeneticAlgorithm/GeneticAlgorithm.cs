@@ -28,12 +28,12 @@ public abstract class GeneticAlgorithm<T> where T : ISpecimen, new()
         }
     }
 
-    private double GetCurrentAverageFitness()
+    protected double GetCurrentAverageFitness()
     {
         return Population.Average(specimen => specimen.GetFitness());
     }
 
-    private double GetCurrentBestFitness()
+    protected double GetCurrentBestFitness()
     {
         return Population.Max(specimen => specimen.GetFitness());
     }
