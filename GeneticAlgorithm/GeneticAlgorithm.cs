@@ -12,7 +12,7 @@ public abstract class GeneticAlgorithm<T> where T : ISpecimen, new()
         Population = InitPopulation();
     }
 
-    public abstract void Evolve(int generations);
+    public abstract GenerationData[] Evolve(int generations);
 
     protected void UpdatePopulation(T[] newPopulation)
     {
