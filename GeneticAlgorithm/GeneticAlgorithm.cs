@@ -3,14 +3,15 @@
 public abstract class GeneticAlgorithm<T> where T : ISpecimen, new()
 {
     private readonly int _populationSize;
-    protected int CurrentGeneration { get; private set; }
-    protected T[] Population { get; private set; }
 
     protected GeneticAlgorithm(int populationSize)
     {
         _populationSize = populationSize;
         Population = InitPopulation();
     }
+
+    protected int CurrentGeneration { get; private set; }
+    protected T[] Population { get; private set; }
 
     public abstract GenerationData[] Evolve(int generations);
 
@@ -55,16 +56,7 @@ public abstract class GeneticAlgorithm<T> where T : ISpecimen, new()
 
         return (T)tournament.OrderByDescending(specimen => specimen.GetFitness()).First().Clone();
     }
-    
-    protected void LogCurrentPopulation()
-    {
-        Console.WriteLine(
-            "Generation: " + CurrentGeneration +
-            " | Best: " + Math.Round(GetCurrentBestFitness(), 2) +
-            " | Avg: " + Math.Round(GetCurrentAverageFitness(), 2)
-        );
-    }
-    
+
     private T[] InitPopulation()
     {
         var population = new T[_populationSize];
