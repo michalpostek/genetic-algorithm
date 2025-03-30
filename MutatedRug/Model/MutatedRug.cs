@@ -2,7 +2,7 @@
 
 namespace MutatedRug.Model;
 
-public class MutatedRug(int populationSize) : GeneticAlgorithm<MySpecimen>(populationSize, CompareFitness)
+public class MutatedRug(int populationSize) : Population<MySpecimen>(populationSize, CompareFitness)
 {
     private readonly int _tournamentSize = (int)Math.Ceiling((double)populationSize / 10);
 
@@ -10,15 +10,15 @@ public class MutatedRug(int populationSize) : GeneticAlgorithm<MySpecimen>(popul
 
     public override void Evolve()
     {
-        var newPopulation = new MySpecimen[Population.Length];
+        var newPopulation = new MySpecimen[populationSize];
 
-        for (var i = 0; i < Population.Length - 1; i++)
+        for (var i = 0; i < populationSize - 1; i++)
         {
             newPopulation[i] = TournamentSelection(_tournamentSize);
         }
 
         MutateEach(1);
-        newPopulation[Population.Length - 1] = EliteHotDeckSelection();
-        UpdatePopulation(newPopulation);
+        newPopulation[populationSize - 1] = EliteHotDeckSelection();
+        NextGeneration(newPopulation);
     }
 }

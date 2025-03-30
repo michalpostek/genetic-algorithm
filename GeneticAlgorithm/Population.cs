@@ -1,31 +1,30 @@
 ﻿namespace GeneticAlgorithm;
 
-public abstract class GeneticAlgorithm<T> where T : ISpecimen, new()
+public abstract class Population<T> where T : ISpecimen, new()
 {
-    private readonly int _populationSize;
     private readonly Comparison<T> _compareFitness;
+    private readonly int _populationSize;
+    private int _currentGeneration;
+    private T[] _currentPopulation;
 
-    protected GeneticAlgorithm(int populationSize, Comparison<T> compareFitness)
+    protected Population(int populationSize, Comparison<T> compareFitness)
     {
         _compareFitness = compareFitness;
         _populationSize = populationSize;
-        Population = InitPopulation();
+        _currentPopulation = InitPopulation();
     }
-
-    protected int CurrentGeneration { get; private set; }
-    protected T[] Population { get; private set; }
 
     public abstract void Evolve();
 
-    protected void UpdatePopulation(T[] newPopulation)
+    protected void NextGeneration(T[] newPopulation)
     {
-        Population = newPopulation;
-        CurrentGeneration++;
+        _currentPopulation = newPopulation;
+        _currentGeneration++;
     }
 
     protected void MutateEach(int points)
     {
-        foreach (var specimen in Population)
+        foreach (var specimen in _currentPopulation)
         {
             specimen.Mutate(points);
         }
@@ -33,12 +32,12 @@ public abstract class GeneticAlgorithm<T> where T : ISpecimen, new()
 
     public double GetCurrentAverageFitness()
     {
-        return Population.Average(specimen => specimen.GetFitness());
+        return _currentPopulation.Average(specimen => specimen.GetFitness());
     }
 
     public double GetCurrentBestFitness()
     {
-        var population = Population.ToList();
+        var population = _currentPopulation.ToList();
         population.Sort(_compareFitness);
 
         return population.First().GetFitness();
@@ -46,7 +45,7 @@ public abstract class GeneticAlgorithm<T> where T : ISpecimen, new()
 
     protected T EliteHotDeckSelection()
     {
-        var population = Population.ToList();
+        var population = _currentPopulation.ToList();
         population.Sort(_compareFitness);
 
         return (T)population.First().Clone();
@@ -59,7 +58,7 @@ public abstract class GeneticAlgorithm<T> where T : ISpecimen, new()
 
         for (var i = 0; i < tournamentSize; i++)
         {
-            tournament.Add(Population[random.Next(Population.Length)]);
+            tournament.Add(_currentPopulation[random.Next(_currentPopulation.Length)]);
         }
 
         tournament.Sort(_compareFitness);
