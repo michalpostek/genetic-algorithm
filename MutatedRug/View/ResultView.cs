@@ -1,4 +1,5 @@
 ﻿using System.Windows.Forms.DataVisualization.Charting;
+using MutatedRug.Model;
 
 namespace MutatedRug.View;
 

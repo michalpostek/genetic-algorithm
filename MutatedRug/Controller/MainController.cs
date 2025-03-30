@@ -1,3 +1,4 @@
+using MutatedRug.Model;
 using MutatedRug.View;
 
 namespace MutatedRug.Controller;
