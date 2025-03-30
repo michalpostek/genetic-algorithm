@@ -10,15 +10,15 @@ public class MutatedRug(int populationSize) : Population<MySpecimen>(populationS
 
     public override void Evolve()
     {
-        var newPopulation = new MySpecimen[populationSize];
+        var newPopulation = new MySpecimen[PopulationSize];
 
-        for (var i = 0; i < populationSize - 1; i++)
+        for (var i = 0; i < PopulationSize - 1; i++)
         {
             newPopulation[i] = TournamentSelection(_tournamentSize);
         }
 
         MutateEach(1);
-        newPopulation[populationSize - 1] = EliteHotDeckSelection();
+        newPopulation[PopulationSize - 1] = EliteHotDeckSelection();
         NextGeneration(newPopulation);
     }
 }

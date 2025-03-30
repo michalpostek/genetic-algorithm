@@ -2,14 +2,14 @@
 
 public abstract class Population<T> where T : ISpecimen, new()
 {
+    protected readonly int PopulationSize;
     private readonly Comparison<T> _compareFitness;
-    private readonly int _populationSize;
     private T[] _currentPopulation;
 
     protected Population(int populationSize, Comparison<T> compareFitness)
     {
         _compareFitness = compareFitness;
-        _populationSize = populationSize;
+        PopulationSize = populationSize;
         _currentPopulation = InitPopulation();
     }
 
@@ -64,9 +64,9 @@ public abstract class Population<T> where T : ISpecimen, new()
 
     private T[] InitPopulation()
     {
-        var population = new T[_populationSize];
+        var population = new T[PopulationSize];
 
-        for (var i = 0; i < _populationSize; i++)
+        for (var i = 0; i < PopulationSize; i++)
         {
             population[i] = new T();
         }
