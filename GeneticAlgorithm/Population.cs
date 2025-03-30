@@ -4,7 +4,6 @@ public abstract class Population<T> where T : ISpecimen, new()
 {
     private readonly Comparison<T> _compareFitness;
     private readonly int _populationSize;
-    private int _currentGeneration;
     private T[] _currentPopulation;
 
     protected Population(int populationSize, Comparison<T> compareFitness)
@@ -19,7 +18,6 @@ public abstract class Population<T> where T : ISpecimen, new()
     protected void NextGeneration(T[] newPopulation)
     {
         _currentPopulation = newPopulation;
-        _currentGeneration++;
     }
 
     protected void MutateEach(int points)
