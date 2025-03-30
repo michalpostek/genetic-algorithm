@@ -3,9 +3,11 @@
 public abstract class GeneticAlgorithm<T> where T : ISpecimen, new()
 {
     private readonly int _populationSize;
+    private readonly Comparison<T> _compareFitness;
 
-    protected GeneticAlgorithm(int populationSize)
+    protected GeneticAlgorithm(int populationSize, Comparison<T> compareFitness)
     {
+        _compareFitness = compareFitness;
         _populationSize = populationSize;
         Population = InitPopulation();
     }
@@ -34,17 +36,23 @@ public abstract class GeneticAlgorithm<T> where T : ISpecimen, new()
         return Population.Average(specimen => specimen.GetFitness());
     }
 
-    public abstract double GetCurrentBestFitness();
-
-    protected T EliteHotDeckSelection(Comparison<T> compareFitness)
+    public double GetCurrentBestFitness()
     {
         var population = Population.ToList();
-        population.Sort(compareFitness);
+        population.Sort(_compareFitness);
+
+        return population.First().GetFitness();
+    }
+
+    protected T EliteHotDeckSelection()
+    {
+        var population = Population.ToList();
+        population.Sort(_compareFitness);
 
         return (T)population.First().Clone();
     }
 
-    protected T TournamentSelection(int tournamentSize, Comparison<T> compareFitness)
+    protected T TournamentSelection(int tournamentSize)
     {
         var random = new Random();
         var tournament = new List<T>();
@@ -54,7 +62,7 @@ public abstract class GeneticAlgorithm<T> where T : ISpecimen, new()
             tournament.Add(Population[random.Next(Population.Length)]);
         }
 
-        tournament.Sort(compareFitness);
+        tournament.Sort(_compareFitness);
 
         return (T)tournament.First().Clone();
     }
