@@ -38,14 +38,14 @@ public partial class MainController : Form
     private void HandleSubmit(int generations, int populationSize)
     {
         var mutatedRug = new Model.MutatedRug(populationSize);
-        var data = new GenerationData[generations + 1];
+        var data = new GenerationStats[generations + 1];
 
-        data[0] = new GenerationData(mutatedRug.GetCurrentAverageFitness(), mutatedRug.GetCurrentBestFitness());
+        data[0] = new GenerationStats(mutatedRug.GetCurrentAverageFitness(), mutatedRug.GetCurrentBestFitness());
 
         for (var i = 0; i < generations; i++)
         {
             mutatedRug.Evolve();
-            data[i + 1] = new GenerationData(mutatedRug.GetCurrentAverageFitness(), mutatedRug.GetCurrentBestFitness());
+            data[i + 1] = new GenerationStats(mutatedRug.GetCurrentAverageFitness(), mutatedRug.GetCurrentBestFitness());
         }
 
         _resultView.UpdateChart(data);

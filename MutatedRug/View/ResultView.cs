@@ -39,7 +39,7 @@ public partial class ResultView : Form
 
     public FlowLayoutPanel ChartContainer { get; }
 
-    public void UpdateChart(GenerationData[] data)
+    public void UpdateChart(GenerationStats[] data)
     {
         _chart.Series.Clear();
 
