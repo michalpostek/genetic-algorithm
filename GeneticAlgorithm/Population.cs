@@ -37,31 +37,29 @@ public abstract class Population<T> where T : ISpecimen, new()
 
     public double GetCurrentBestFitness()
     {
-        var population = _currentPopulation.ToList();
-        population.Sort(_compareFitness);
+        Array.Sort(_currentPopulation, _compareFitness);
 
-        return population.First().GetFitness();
+        return _currentPopulation.First().GetFitness();
     }
 
     protected T EliteHotDeckSelection()
     {
-        var population = _currentPopulation.ToList();
-        population.Sort(_compareFitness);
+        Array.Sort(_currentPopulation, _compareFitness);
 
-        return (T)population.First().Clone();
+        return (T)_currentPopulation.First().Clone();
     }
 
     protected T TournamentSelection(int tournamentSize)
     {
         var random = new Random();
-        var tournament = new List<T>();
+        var tournament = new T[tournamentSize];
 
         for (var i = 0; i < tournamentSize; i++)
         {
-            tournament.Add(_currentPopulation[random.Next(_currentPopulation.Length)]);
+            tournament[i] = _currentPopulation[random.Next(_currentPopulation.Length)];
         }
 
-        tournament.Sort(_compareFitness);
+        Array.Sort(tournament, _compareFitness);
 
         return (T)tournament.First().Clone();
     }
