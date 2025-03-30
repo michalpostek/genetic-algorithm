@@ -12,15 +12,25 @@ public partial class ResultView : Form
 
     public ResultView(OnClear onClear)
     {
-        ChartContainer = CreateChartContainer();
+        _onClear = onClear;
+
+        ChartContainer = new FlowLayoutPanel
+        {
+            Size = new Size(Width, Height - 200),
+            WrapContents = true,
+            Dock = DockStyle.Fill,
+            FlowDirection = FlowDirection.TopDown
+        };
 
         _chart = CreateChart();
         _chart.Width = 800;
 
-        _clearButton = CreateClearButton();
+        _clearButton = new Button
+        {
+            Text = "Clear",
+            AutoSize = true
+        };
         _clearButton.Click += OnClear;
-
-        _onClear = onClear;
 
         ChartContainer.Controls.Add(_chart);
         ChartContainer.Controls.Add(_clearButton);
@@ -65,15 +75,6 @@ public partial class ResultView : Form
         _onClear();
     }
 
-    private Button CreateClearButton()
-    {
-        var clearButton = new Button();
-        clearButton.Text = "Clear";
-        clearButton.AutoSize = true;
-
-        return clearButton;
-    }
-
     private Chart CreateChart()
     {
         var chartArea = new ChartArea();
@@ -85,25 +86,16 @@ public partial class ResultView : Form
 
         var legend = new Legend();
 
-        var chart = new Chart();
-        chart.Size = new Size(Width, Height);
-        chart.Dock = DockStyle.Fill;
-        chart.AutoSize = true;
+        var chart = new Chart
+        {
+            Size = new Size(Width, Height),
+            Dock = DockStyle.Fill,
+            AutoSize = true
+        };
+
         chart.ChartAreas.Add(chartArea);
         chart.Legends.Add(legend);
 
         return chart;
-    }
-
-    private FlowLayoutPanel CreateChartContainer()
-    {
-        var panel = new FlowLayoutPanel();
-        panel.Size = new Size(Width, Height - 200);
-
-        panel.WrapContents = true;
-        panel.Dock = DockStyle.Fill;
-        panel.FlowDirection = FlowDirection.TopDown;
-
-        return panel;
     }
 }

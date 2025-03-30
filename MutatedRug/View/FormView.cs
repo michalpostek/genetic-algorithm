@@ -11,11 +11,20 @@ public partial class FormView : Form
 
     public FormView(OnSubmit onSubmit)
     {
-        Form = CreateForm();
+        Form = new FlowLayoutPanel
+        {
+            Dock = DockStyle.Fill,
+            FlowDirection = FlowDirection.TopDown,
+            Padding = new Padding(10)
+        };
         _generationsTextBox = CreateTextBox("Number of generations");
         _populationSizeTextBox = CreateTextBox("Population size");
 
-        _startButton = CreateStartButton();
+        _startButton = new Button
+        {
+            Text = "Start",
+            AutoSize = true
+        };
         _startButton.Click += HandleSubmit;
 
         _generationsTextBox.KeyPress += AllowOnlyNumberInput;
@@ -50,15 +59,6 @@ public partial class FormView : Form
         _populationSizeTextBox.Clear();
     }
 
-    private static Button CreateStartButton()
-    {
-        return new Button
-        {
-            Text = "Start",
-            AutoSize = true
-        };
-    }
-
     private static Label CreateLabel(string text)
     {
         return new Label
@@ -74,16 +74,6 @@ public partial class FormView : Form
         {
             Width = 250,
             PlaceholderText = placeholderText
-        };
-    }
-
-    private static FlowLayoutPanel CreateForm()
-    {
-        return new FlowLayoutPanel
-        {
-            Dock = DockStyle.Fill,
-            FlowDirection = FlowDirection.TopDown,
-            Padding = new Padding(10)
         };
     }
 
