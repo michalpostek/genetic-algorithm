@@ -20,14 +20,6 @@ public abstract class Population<T> where T : ISpecimen, new()
         _currentPopulation = newPopulation;
     }
 
-    protected void MutateEach(int points)
-    {
-        foreach (var specimen in _currentPopulation)
-        {
-            specimen.Mutate(points);
-        }
-    }
-
     public double GetCurrentAverageFitness()
     {
         return _currentPopulation.Average(specimen => specimen.GetFitness());
