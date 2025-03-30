@@ -1,6 +1,6 @@
 ﻿namespace GeneticAlgorithm;
 
-public interface ISpecimen : ICloneable
+public interface IIndividual : ICloneable
 {
     public double GetFitness();
 }

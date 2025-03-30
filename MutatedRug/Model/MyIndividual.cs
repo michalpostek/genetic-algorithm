@@ -2,7 +2,7 @@
 
 namespace MutatedRug.Model;
 
-public class MySpecimen : ISpecimen
+public class MyIndividual : IIndividual
 {
     private const int Parameters = 2;
     private const int ParameterLength = 4;
@@ -12,13 +12,13 @@ public class MySpecimen : ISpecimen
     private readonly ParameterEncoder _parameterEncoder;
     private readonly Genome _genome;
 
-    public MySpecimen()
+    public MyIndividual()
     {
         _genome = new Genome(Parameters * ParameterLength);
         _parameterEncoder = new ParameterEncoder(ParameterMin, ParameterMax, ParameterLength);
     }
 
-    private MySpecimen(bool[] chromosomes)
+    private MyIndividual(bool[] chromosomes)
     {
         _genome = new Genome(chromosomes);
         _parameterEncoder = new ParameterEncoder(ParameterMin, ParameterMax, ParameterLength);
@@ -26,7 +26,7 @@ public class MySpecimen : ISpecimen
 
     public object Clone()
     {
-        return new MySpecimen(_genome.Chromosomes.ToArray());
+        return new MyIndividual(_genome.Chromosomes.ToArray());
     }
 
     public double GetFitness()

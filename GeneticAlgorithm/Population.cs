@@ -1,6 +1,6 @@
 ﻿namespace GeneticAlgorithm;
 
-public abstract class Population<T> where T : ISpecimen, new()
+public abstract class Population<T> where T : IIndividual, new()
 {
     protected readonly int PopulationSize;
     private readonly Comparison<T> _compareFitness;
@@ -22,7 +22,7 @@ public abstract class Population<T> where T : ISpecimen, new()
 
     public double GetCurrentAverageFitness()
     {
-        return _currentPopulation.Average(specimen => specimen.GetFitness());
+        return _currentPopulation.Average(individual => individual.GetFitness());
     }
 
     public double GetCurrentBestFitness()
