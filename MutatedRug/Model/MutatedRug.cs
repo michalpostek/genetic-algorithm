@@ -14,10 +14,12 @@ public class MutatedRug(int populationSize) : Population<MySpecimen>(populationS
 
         for (var i = 0; i < PopulationSize - 1; i++)
         {
-            newPopulation[i] = TournamentSelection(_tournamentSize);
+            var winner = TournamentSelection(_tournamentSize);
+            winner.Mutate(1);
+            
+            newPopulation[i] = winner;
         }
-
-        MutateEach(1);
+        
         newPopulation[PopulationSize - 1] = EliteHotDeckSelection();
         NextGeneration(newPopulation);
     }

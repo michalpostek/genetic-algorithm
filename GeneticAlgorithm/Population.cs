@@ -8,8 +8,8 @@ public abstract class Population<T> where T : ISpecimen, new()
 
     protected Population(int populationSize, Comparison<T> compareFitness)
     {
-        _compareFitness = compareFitness;
         PopulationSize = populationSize;
+        _compareFitness = compareFitness;
         _currentPopulation = InitPopulation();
     }
 
