@@ -1,5 +1,4 @@
 ﻿using System.Windows.Forms.DataVisualization.Charting;
-using GeneticAlgorithm;
 
 namespace MutatedRug.View;
 
@@ -53,8 +52,8 @@ public partial class ResultView : Form
 
         for (var i = 0; i < data.Length; i++)
         {
-            avgFitnessSeries.Points.AddXY(i, data[i].Avg);
-            bestFitnessSeries.Points.AddXY(i, data[i].Best);
+            avgFitnessSeries.Points.AddXY(i, data[i].AverageFitness);
+            bestFitnessSeries.Points.AddXY(i, data[i].BestFitness);
         }
 
         _chart.Series.Add(avgFitnessSeries);

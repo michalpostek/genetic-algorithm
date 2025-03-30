@@ -13,7 +13,7 @@ public abstract class GeneticAlgorithm<T> where T : ISpecimen, new()
     protected int CurrentGeneration { get; private set; }
     protected T[] Population { get; private set; }
 
-    public abstract GenerationData[] Evolve(int generations);
+    public abstract void Evolve();
 
     protected void UpdatePopulation(T[] newPopulation)
     {
@@ -29,32 +29,34 @@ public abstract class GeneticAlgorithm<T> where T : ISpecimen, new()
         }
     }
 
-    protected double GetCurrentAverageFitness()
+    public double GetCurrentAverageFitness()
     {
         return Population.Average(specimen => specimen.GetFitness());
     }
 
-    protected double GetCurrentBestFitness()
+    public abstract double GetCurrentBestFitness();
+
+    protected T EliteHotDeckSelection(Comparison<T> compareFitness)
     {
-        return Population.Max(specimen => specimen.GetFitness());
+        var population = Population.ToList();
+        population.Sort(compareFitness);
+
+        return (T)population.First().Clone();
     }
 
-    protected T EliteHotDeckSelection()
-    {
-        return (T)Population.OrderByDescending(specimen => specimen.GetFitness()).First().Clone();
-    }
-
-    protected T TournamentSelection(int tournamentSize)
+    protected T TournamentSelection(int tournamentSize, Comparison<T> compareFitness)
     {
         var random = new Random();
-        var tournament = new T[tournamentSize];
+        var tournament = new List<T>();
 
         for (var i = 0; i < tournamentSize; i++)
         {
-            tournament[i] = Population[random.Next(Population.Length)];
+            tournament.Add(Population[random.Next(Population.Length)]);
         }
 
-        return (T)tournament.OrderByDescending(specimen => specimen.GetFitness()).First().Clone();
+        tournament.Sort(compareFitness);
+
+        return (T)tournament.First().Clone();
     }
 
     private T[] InitPopulation()

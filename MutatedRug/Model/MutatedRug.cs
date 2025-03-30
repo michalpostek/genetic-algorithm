@@ -6,27 +6,24 @@ public class MutatedRug(int populationSize) : GeneticAlgorithm<MySpecimen>(popul
 {
     private readonly int _tournamentSize = (int)Math.Ceiling((double)populationSize / 10);
 
-    public override GenerationData[] Evolve(int generations)
+    private static Comparison<ISpecimen> CompareFitness => (x, y) => y.GetFitness().CompareTo(x.GetFitness());
+
+    public override void Evolve()
     {
-        var result = new List<GenerationData>();
-        result.Add(new GenerationData(GetCurrentAverageFitness(), GetCurrentBestFitness()));
+        var newPopulation = new MySpecimen[Population.Length];
 
-        while (CurrentGeneration < generations)
+        for (var i = 0; i < Population.Length - 1; i++)
         {
-            var newPopulation = new MySpecimen[Population.Length];
-
-            for (var i = 0; i < Population.Length - 1; i++)
-            {
-                newPopulation[i] = TournamentSelection(_tournamentSize);
-            }
-
-            MutateEach(1);
-            newPopulation[Population.Length - 1] = EliteHotDeckSelection();
-            UpdatePopulation(newPopulation);
-
-            result.Add(new GenerationData(GetCurrentAverageFitness(), GetCurrentBestFitness()));
+            newPopulation[i] = TournamentSelection(_tournamentSize, CompareFitness);
         }
 
-        return result.ToArray();
+        MutateEach(1);
+        newPopulation[Population.Length - 1] = EliteHotDeckSelection(CompareFitness);
+        UpdatePopulation(newPopulation);
+    }
+
+    public override double GetCurrentBestFitness()
+    {
+        return Population.Max(specimen => specimen.GetFitness());
     }
 }

@@ -28,18 +28,26 @@ public partial class MainController : Form
         ToggleVisibility(true);
     }
 
-    private void HandleSubmit(int generations, int populationSize)
-    {
-        var mutatedRug = new Model.MutatedRug(populationSize);
-        var data = mutatedRug.Evolve(generations);
-
-        _resultView.UpdateChart(data);
-        ToggleVisibility(false);
-    }
-
     private void ToggleVisibility(bool displayForm)
     {
         _formView.Form.Visible = displayForm;
         _resultView.ChartContainer.Visible = !displayForm;
+    }
+
+    private void HandleSubmit(int generations, int populationSize)
+    {
+        var mutatedRug = new Model.MutatedRug(populationSize);
+        var data = new GenerationData[generations + 1];
+
+        data[0] = new GenerationData(mutatedRug.GetCurrentAverageFitness(), mutatedRug.GetCurrentBestFitness());
+
+        for (var i = 0; i < generations; i++)
+        {
+            mutatedRug.Evolve();
+            data[i + 1] = new GenerationData(mutatedRug.GetCurrentAverageFitness(), mutatedRug.GetCurrentBestFitness());
+        }
+
+        _resultView.UpdateChart(data);
+        ToggleVisibility(false);
     }
 }
