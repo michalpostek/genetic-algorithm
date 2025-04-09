@@ -9,7 +9,17 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\GeneticAlgorithm\GeneticAlgorithm.csproj" />
+        <ProjectReference Include="..\GeneticAlgorithm\GeneticAlgorithm.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Update="View\FormView.cs">
+            <SubType>Form</SubType>
+        </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="WinForms.DataVisualization" Version="1.10.0"/>
     </ItemGroup>
 
 </Project>

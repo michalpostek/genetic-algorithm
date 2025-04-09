@@ -2,8 +2,9 @@
 
 namespace Sinusie.Model;
 
-public class Sinusie(int populationSize) : Population<MyIndividual>(populationSize, CompareFitness)
+public class Sinusie() : Population<MyIndividual>(PopulationSize, CompareFitness)
 {
+    private new const int PopulationSize = 13;
     private const int TournamentSize = 3;
 
     private static readonly Comparison<MyIndividual> CompareFitness = (x, y) => x.GetFitness().CompareTo(y.GetFitness());
