@@ -79,7 +79,7 @@ public partial class ResultView : Form
     private Chart CreateChart()
     {
         var chartArea = new ChartArea();
-        chartArea.AxisX.Interval = 1;
+        chartArea.AxisX.Interval = 10;
         chartArea.AxisY.Interval = 0.1;
         chartArea.AxisX.Minimum = 0;
         chartArea.AxisX.Title = "Generation";
