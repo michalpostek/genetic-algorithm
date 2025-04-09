@@ -1,9 +1,9 @@
 using Sinusie.Model;
 using Sinusie.View;
 
-namespace Sinusie;
+namespace Sinusie.Controller;
 
-public partial class Form1 : Form
+public partial class MainController : Form
 {
     private new const int Width = 1000;
     private new const int Height = 800;
@@ -11,7 +11,7 @@ public partial class Form1 : Form
     private readonly FormView _formView;
     private readonly ResultView _resultView;
 
-    public Form1()
+    public MainController()
     {
         _formView = new FormView(HandleSubmit);
         _resultView = new ResultView(HandleClear);

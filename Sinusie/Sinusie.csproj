@@ -16,6 +16,9 @@
         <Compile Update="View\FormView.cs">
             <SubType>Form</SubType>
         </Compile>
+        <Compile Update="Controller\MainController.cs">
+            <SubType>Form</SubType>
+        </Compile>
     </ItemGroup>
 
     <ItemGroup>
