@@ -1,5 +1,11 @@
 ﻿namespace GeneticAlgorithm;
 
+/// <summary>
+///     Represents a population of <typeparamref name="T" /> individuals in a genetic algorithm.
+///     Provides selection methods like tournament and hot deck selection, using the <see cref="_compareFitness" /> method
+///     to compare individuals' fitness.
+/// </summary>
+/// <typeparam name="T">The type of individual, which must implement the <see cref="IIndividual" /> interface.</typeparam>
 public abstract class Population<T> where T : IIndividual, new()
 {
     protected readonly int PopulationSize;
