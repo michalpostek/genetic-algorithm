@@ -21,14 +21,12 @@ public class ResultView : Form
 
         ChartContainer = new FlowLayoutPanel
         {
-            Size = new Size(Width, Height - 200),
             WrapContents = true,
             Dock = DockStyle.Fill,
             FlowDirection = FlowDirection.TopDown
         };
 
         _chart = CreateChart();
-        _chart.Width = 800;
 
         _clearButton = new Button
         {
@@ -83,10 +81,15 @@ public class ResultView : Form
             avgFitnessSeries.Points.AddXY(i, avg);
             bestFitnessSeries.Points.AddXY(i, best);
 
-            if (i % axisXInterval == 0) avgFitnessSeries.Points[i].Label = Math.Round(avg, 2).ToString(CultureInfo.InvariantCulture);
+            if (i % axisXInterval == 0)
+            {
+                avgFitnessSeries.Points[i].Label = Math.Round(avg, 2).ToString(CultureInfo.InvariantCulture);
+            }
 
             if ((i - Math.Floor(axisXInterval / 2)) % axisXInterval == 0)
+            {
                 bestFitnessSeries.Points[i].Label = Math.Round(best, 2).ToString(CultureInfo.InvariantCulture);
+            }
         }
 
         _chart.Series.Add(avgFitnessSeries);

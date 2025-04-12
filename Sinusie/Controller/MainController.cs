@@ -5,7 +5,7 @@ namespace Sinusie.Controller;
 
 public partial class MainController : Form
 {
-    private new const int Width = 1000;
+    private new const int Width = 1200;
     private new const int Height = 800;
 
     private readonly FormView _formView;
