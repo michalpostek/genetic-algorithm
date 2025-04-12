@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sinusie", "Sinusie\Sinusie.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XOR", "XOR\XOR.csproj", "{6C79D558-4A45-48E6-A4BA-A8DECED12BC9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvolutionChart", "EvolutionChart\EvolutionChart.csproj", "{E8C4CEFA-AB3E-4B89-9CB3-3E1281B428A2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{6C79D558-4A45-48E6-A4BA-A8DECED12BC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C79D558-4A45-48E6-A4BA-A8DECED12BC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C79D558-4A45-48E6-A4BA-A8DECED12BC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8C4CEFA-AB3E-4B89-9CB3-3E1281B428A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8C4CEFA-AB3E-4B89-9CB3-3E1281B428A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8C4CEFA-AB3E-4B89-9CB3-3E1281B428A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8C4CEFA-AB3E-4B89-9CB3-3E1281B428A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

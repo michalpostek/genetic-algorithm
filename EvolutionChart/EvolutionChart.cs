@@ -1,24 +1,28 @@
 ﻿using System.Globalization;
 using System.Windows.Forms.DataVisualization.Charting;
-using XOR.Model;
 
-namespace XOR.View;
+namespace EvolutionChart;
 
 public delegate void OnClear();
 
-public partial class ResultView : Form
+public partial class EvolutionChart : Form
 {
     private readonly Chart _chart;
     private readonly int _chartHeight;
     private readonly int _chartWidth;
     private readonly Button _clearButton;
+
+    private readonly double _fitnessAxisInterval;
+    private readonly int _fitnessPrecision;
     private readonly OnClear _onClear;
 
-    public ResultView(OnClear onClear)
+    public EvolutionChart(OnClear onClear, double fitnessAxisInterval, int fitnessPrecision)
     {
         _chartWidth = 1200;
         _chartHeight = 600;
         _onClear = onClear;
+        _fitnessAxisInterval = fitnessAxisInterval;
+        _fitnessPrecision = fitnessPrecision;
 
         ChartContainer = new FlowLayoutPanel
         {
@@ -43,10 +47,11 @@ public partial class ResultView : Form
 
     public FlowLayoutPanel ChartContainer { get; }
 
-    public void UpdateChart(GenerationStats[] data)
+    public void Update(GenerationStats[] data)
     {
-        var axisXInterval = Math.Floor(data.Length / 10f);
+        var generationAxisLabelInterval = Math.Floor(data.Length / 10f);
 
+        _chart.ChartAreas.First().AxisX.Interval = generationAxisLabelInterval;
         _chart.Series.Clear();
 
         var avgFitnessSeries = new Series
@@ -54,7 +59,7 @@ public partial class ResultView : Form
             Name = "Average fitness",
             ChartType = SeriesChartType.Line,
             Color = Color.SlateGray,
-            BorderWidth = 3,
+            BorderWidth = 2,
             IsVisibleInLegend = true,
             Font = new Font("Arial", 10, FontStyle.Bold),
             LabelForeColor = Color.SlateGray,
@@ -66,7 +71,7 @@ public partial class ResultView : Form
             Name = "Best fitness",
             ChartType = SeriesChartType.Line,
             Color = Color.DarkGoldenrod,
-            BorderWidth = 3,
+            BorderWidth = 2,
             IsVisibleInLegend = true,
             Font = new Font("Arial", 10, FontStyle.Bold),
             LabelForeColor = Color.DarkGoldenrod,
@@ -78,14 +83,14 @@ public partial class ResultView : Form
             avgFitnessSeries.Points.AddXY(i, data[i].AverageFitness);
             bestFitnessSeries.Points.AddXY(i, data[i].BestFitness);
 
-            if (i % axisXInterval == 0)
+            if (i % generationAxisLabelInterval == 0)
             {
-                avgFitnessSeries.Points[i].Label = Math.Round(data[i].AverageFitness, 2).ToString(CultureInfo.InvariantCulture);
+                avgFitnessSeries.Points[i].Label = Math.Round(data[i].AverageFitness, _fitnessPrecision).ToString(CultureInfo.InvariantCulture);
             }
 
-            if ((i - Math.Floor(axisXInterval / 2)) % axisXInterval == 0)
+            if ((i - Math.Floor(generationAxisLabelInterval / 2)) % generationAxisLabelInterval == 0)
             {
-                bestFitnessSeries.Points[i].Label = Math.Round(data[i].BestFitness, 6).ToString(CultureInfo.InvariantCulture);
+                bestFitnessSeries.Points[i].Label = Math.Round(data[i].BestFitness, _fitnessPrecision).ToString(CultureInfo.InvariantCulture);
             }
         }
 
@@ -101,9 +106,10 @@ public partial class ResultView : Form
     private Chart CreateChart()
     {
         var chartArea = new ChartArea();
-        chartArea.AxisX.Interval = 10;
-        chartArea.AxisY.Interval = 0.1;
+
         chartArea.AxisX.Minimum = 0;
+
+        chartArea.AxisY.Interval = _fitnessAxisInterval;
         chartArea.AxisX.Title = "Generation";
         chartArea.AxisY.Title = "Fitness";
 

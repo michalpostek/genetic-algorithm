@@ -1,5 +1,6 @@
 using XOR.Model;
 using XOR.View;
+using GenerationStats = EvolutionChart.GenerationStats;
 
 namespace XOR.Controller;
 
@@ -7,17 +8,17 @@ public partial class MainController : Form
 {
     private new const int Width = 1200;
     private new const int Height = 800;
+    private readonly EvolutionChart.EvolutionChart _evolutionChart;
 
     private readonly FormView _formView;
-    private readonly ResultView _resultView;
 
     public MainController()
     {
         _formView = new FormView(HandleSubmit);
-        _resultView = new ResultView(HandleClear);
+        _evolutionChart = new EvolutionChart.EvolutionChart(HandleClear, 0.05, 6);
 
         Controls.Add(_formView.Form);
-        Controls.Add(_resultView.ChartContainer);
+        Controls.Add(_evolutionChart.ChartContainer);
 
         InitializeComponent();
 
@@ -32,7 +33,7 @@ public partial class MainController : Form
     private void ToggleVisibility(bool displayForm)
     {
         _formView.Form.Visible = displayForm;
-        _resultView.ChartContainer.Visible = !displayForm;
+        _evolutionChart.ChartContainer.Visible = !displayForm;
     }
 
     private void HandleSubmit(int generations)
@@ -48,7 +49,7 @@ public partial class MainController : Form
             data[i + 1] = new GenerationStats(xor.GetCurrentAverageFitness(), xor.GetCurrentBestFitness());
         }
 
-        _resultView.UpdateChart(data);
+        _evolutionChart.Update(data);
         ToggleVisibility(false);
     }
 }

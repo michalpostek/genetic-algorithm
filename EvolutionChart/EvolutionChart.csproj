@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <OutputType>WinExe</OutputType>
         <TargetFramework>net8.0-windows</TargetFramework>
         <Nullable>enable</Nullable>
         <UseWindowsForms>true</UseWindowsForms>
@@ -9,15 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\EvolutionChart\EvolutionChart.csproj"/>
-        <ProjectReference Include="..\GeneticAlgorithm\GeneticAlgorithm.csproj"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <Compile Update="View\FormView.cs">
-            <SubType>Form</SubType>
-        </Compile>
-        <Compile Update="Controller\MainController.cs">
+        <Compile Update="EvolutionChart.cs">
             <SubType>Form</SubType>
         </Compile>
     </ItemGroup>

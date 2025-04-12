@@ -9,14 +9,12 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\EvolutionChart\EvolutionChart.csproj"/>
         <ProjectReference Include="..\GeneticAlgorithm\GeneticAlgorithm.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
         <Compile Update="View\FormView.cs">
-            <SubType>Form</SubType>
-        </Compile>
-        <Compile Update="View\ResultView.cs">
             <SubType>Form</SubType>
         </Compile>
         <Compile Update="Controller\MainController.cs">

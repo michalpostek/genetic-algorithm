@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel;
 
-namespace XOR.View;
+namespace EvolutionChart;
 
-partial class ResultView
-{
+partial class EvolutionChart : Form
+{ 
     /// <summary>
     /// Required designer variable.
     /// </summary>
@@ -34,7 +34,7 @@ partial class ResultView
         this.components = new System.ComponentModel.Container();
         this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
         this.ClientSize = new System.Drawing.Size(800, 450);
-        this.Text = "Result";
+        this.Text = "EvolutionChart";
     }
 
     #endregion
