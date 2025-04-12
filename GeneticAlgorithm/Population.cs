@@ -2,22 +2,22 @@
 
 /// <summary>
 ///     Represents a population of <typeparamref name="T" /> individuals in a genetic algorithm.
-///     Provides selection methods like tournament and hot deck selection, using the <see cref="_compareFitness" /> method
+///     Provides selection methods like tournament and hot deck selection, using the <see cref="CompareFitness" /> method
 ///     to compare individuals' fitness.
 /// </summary>
 /// <typeparam name="T">The type of individual, which must implement the <see cref="IIndividual" /> interface.</typeparam>
 public abstract class Population<T> where T : IIndividual, new()
 {
     protected readonly int PopulationSize;
-    private readonly Comparison<T> _compareFitness;
     private T[] _currentPopulation;
 
-    protected Population(int populationSize, Comparison<T> compareFitness)
+    protected Population(int populationSize)
     {
         PopulationSize = populationSize;
-        _compareFitness = compareFitness;
         _currentPopulation = InitPopulation();
     }
+
+    protected abstract Comparison<T> CompareFitness { get; }
 
     /// <summary>
     ///     Replaces the current population with a new generation using the provided <see cref="EvolutionStrategy" />
@@ -43,14 +43,14 @@ public abstract class Population<T> where T : IIndividual, new()
 
     public double GetCurrentBestFitness()
     {
-        Array.Sort(_currentPopulation, _compareFitness);
+        Array.Sort(_currentPopulation, CompareFitness);
 
         return _currentPopulation.First().GetFitness();
     }
 
     protected T EliteHotDeckSelection()
     {
-        Array.Sort(_currentPopulation, _compareFitness);
+        Array.Sort(_currentPopulation, CompareFitness);
 
         return (T)_currentPopulation.First().Clone();
     }
@@ -60,12 +60,9 @@ public abstract class Population<T> where T : IIndividual, new()
         var random = new Random();
         var tournament = new T[tournamentSize];
 
-        for (var i = 0; i < tournamentSize; i++)
-        {
-            tournament[i] = _currentPopulation[random.Next(_currentPopulation.Length)];
-        }
+        for (var i = 0; i < tournamentSize; i++) tournament[i] = _currentPopulation[random.Next(_currentPopulation.Length)];
 
-        Array.Sort(tournament, _compareFitness);
+        Array.Sort(tournament, CompareFitness);
 
         return (T)tournament.First().Clone();
     }
@@ -74,10 +71,7 @@ public abstract class Population<T> where T : IIndividual, new()
     {
         var population = new T[PopulationSize];
 
-        for (var i = 0; i < PopulationSize; i++)
-        {
-            population[i] = new T();
-        }
+        for (var i = 0; i < PopulationSize; i++) population[i] = new T();
 
         return population;
     }

@@ -57,7 +57,10 @@ public class Genome
         var random = new Random();
         var param = new bool[chromosomes];
 
-        for (var i = 0; i < chromosomes; i++) param[i] = random.Next(2) == 0;
+        for (var i = 0; i < chromosomes; i++)
+        {
+            param[i] = random.Next(2) == 0;
+        }
 
         return param;
     }

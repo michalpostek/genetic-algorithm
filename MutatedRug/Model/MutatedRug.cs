@@ -2,11 +2,11 @@
 
 namespace MutatedRug.Model;
 
-public class MutatedRug(int populationSize) : Population<MyIndividual>(populationSize, CompareFitness)
+public class MutatedRug(int populationSize) : Population<MyIndividual>(populationSize)
 {
     private readonly int _tournamentSize = (int)Math.Ceiling((double)populationSize / 10);
 
-    private static Comparison<IIndividual> CompareFitness => (x, y) => y.GetFitness().CompareTo(x.GetFitness());
+    protected override Comparison<MyIndividual> CompareFitness => (x, y) => y.GetFitness().CompareTo(x.GetFitness());
 
     protected override MyIndividual[] EvolutionStrategy(MyIndividual[] population)
     {
