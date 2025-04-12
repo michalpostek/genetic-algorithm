@@ -5,7 +5,7 @@ namespace MutatedRug.Controller;
 
 public partial class MainController : Form
 {
-    private new const int Width = 1000;
+    private new const int Width = 1200;
     private new const int Height = 800;
 
     private readonly FormView _formView;
@@ -45,7 +45,8 @@ public partial class MainController : Form
         for (var i = 0; i < generations; i++)
         {
             mutatedRug.Evolve();
-            data[i + 1] = new GenerationStats(mutatedRug.GetCurrentAverageFitness(), mutatedRug.GetCurrentBestFitness());
+            data[i + 1] =
+                new GenerationStats(mutatedRug.GetCurrentAverageFitness(), mutatedRug.GetCurrentBestFitness());
         }
 
         _resultView.UpdateChart(data);
