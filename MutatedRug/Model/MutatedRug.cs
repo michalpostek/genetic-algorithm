@@ -15,7 +15,7 @@ public class MutatedRug(int populationSize) : Population<MyIndividual>(populatio
         for (var i = 0; i < PopulationSize - 1; i++)
         {
             var winner = TournamentSelection(_tournamentSize);
-            winner.Mutate(1);
+            winner.FlipBitMutation(1);
 
             newPopulation[i] = winner;
         }

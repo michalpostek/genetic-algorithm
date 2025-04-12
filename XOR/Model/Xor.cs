@@ -16,7 +16,7 @@ public class Xor() : Population<MyIndividual>(PopulationSize, CompareFitness)
         for (var i = 0; i < PopulationSize - 1; i++)
         {
             newPopulation[i] = TournamentSelection(TournamentSize);
-            newPopulation[i].Mutate(3);
+            newPopulation[i].FlipBitMutation(3);
         }
 
         newPopulation[PopulationSize - 1] = EliteHotDeckSelection();

@@ -24,7 +24,7 @@ public class Sinusie() : Population<MyIndividual>(PopulationSize, CompareFitness
             newPopulation[p2] = children.Item2;
         }
 
-        for (var i = 4; i < newPopulation.Length - 1; i++) newPopulation[i].Mutate(1);
+        for (var i = 4; i < newPopulation.Length - 1; i++) newPopulation[i].FlipBitMutation(1);
 
         newPopulation[PopulationSize - 1] = EliteHotDeckSelection();
 

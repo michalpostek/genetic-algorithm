@@ -15,10 +15,6 @@ public class MyIndividual : IIndividual
     {
     }
 
-    private MyIndividual(bool[] chromosomes) : this(new Genome(chromosomes))
-    {
-    }
-
     private MyIndividual(Genome genome)
     {
         _genome = genome;
@@ -40,11 +36,11 @@ public class MyIndividual : IIndividual
 
     public object Clone()
     {
-        return new MyIndividual(_genome.Chromosomes.ToArray());
+        return new MyIndividual(new Genome(_genome.Chromosomes.ToArray()));
     }
 
-    public void Mutate(int points)
+    public void FlipBitMutation(int points)
     {
-        _genome.Mutate(points);
+        _genome.FlipBit(points);
     }
 }
