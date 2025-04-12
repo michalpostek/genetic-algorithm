@@ -14,7 +14,10 @@ public class Sinusie() : Population<MyIndividual>(PopulationSize)
     {
         var newPopulation = new MyIndividual[PopulationSize];
 
-        for (var i = 0; i < PopulationSize - 1; i++) newPopulation[i] = TournamentSelection(TournamentSize);
+        for (var i = 0; i < PopulationSize - 1; i++)
+        {
+            newPopulation[i] = TournamentSelection(TournamentSize);
+        }
 
         foreach (var (p1, p2) in CrossoverIndexes)
         {
@@ -24,7 +27,10 @@ public class Sinusie() : Population<MyIndividual>(PopulationSize)
             newPopulation[p2] = children.Item2;
         }
 
-        for (var i = 4; i < newPopulation.Length - 1; i++) newPopulation[i].FlipBitMutation(1);
+        for (var i = 4; i < newPopulation.Length - 1; i++)
+        {
+            newPopulation[i].FlipBitMutation(1);
+        }
 
         newPopulation[PopulationSize - 1] = EliteHotDeckSelection();
 
