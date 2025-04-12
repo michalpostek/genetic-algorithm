@@ -1,5 +1,9 @@
 ﻿namespace GeneticAlgorithm;
 
+/// <summary>
+///     Encodes a chromosomes (represented as a binary string) into a value between <c>min</c> and <c>max</c>).
+///     The binary values are evenly distributed between the minimum and maximum values.
+/// </summary>
 public class ParameterEncoder(int min, int max, int length)
 {
     private readonly Dictionary<string, double> _valueLookup = CreateValueLookup(min, max, length);
