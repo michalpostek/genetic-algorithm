@@ -8,7 +8,7 @@ public class MutatedRug(int populationSize) : Population<MyIndividual>(populatio
 
     private static Comparison<IIndividual> CompareFitness => (x, y) => y.GetFitness().CompareTo(x.GetFitness());
 
-    public override void Evolve()
+    protected override MyIndividual[] EvolutionStrategy(MyIndividual[] population)
     {
         var newPopulation = new MyIndividual[PopulationSize];
 
@@ -16,11 +16,12 @@ public class MutatedRug(int populationSize) : Population<MyIndividual>(populatio
         {
             var winner = TournamentSelection(_tournamentSize);
             winner.Mutate(1);
-            
+
             newPopulation[i] = winner;
         }
-        
+
         newPopulation[PopulationSize - 1] = EliteHotDeckSelection();
-        NextGeneration(newPopulation);
+
+        return newPopulation;
     }
 }

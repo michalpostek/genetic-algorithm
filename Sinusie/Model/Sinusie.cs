@@ -10,7 +10,7 @@ public class Sinusie() : Population<MyIndividual>(PopulationSize, CompareFitness
     private static readonly Comparison<MyIndividual> CompareFitness = (x, y) => x.GetFitness().CompareTo(y.GetFitness());
     private static readonly (int x, int y)[] CrossoverIndexes = [(0, 1), (2, 3), (8, 9), (10, 11)];
 
-    public override void Evolve()
+    protected override MyIndividual[] EvolutionStrategy(MyIndividual[] population)
     {
         var newPopulation = new MyIndividual[PopulationSize];
 
@@ -28,6 +28,6 @@ public class Sinusie() : Population<MyIndividual>(PopulationSize, CompareFitness
 
         newPopulation[PopulationSize - 1] = EliteHotDeckSelection();
 
-        NextGeneration(newPopulation);
+        return newPopulation;
     }
 }

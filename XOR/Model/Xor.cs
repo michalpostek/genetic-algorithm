@@ -9,7 +9,7 @@ public class Xor() : Population<MyIndividual>(PopulationSize, CompareFitness)
 
     private static readonly Comparison<MyIndividual> CompareFitness = (x, y) => x.GetFitness().CompareTo(y.GetFitness());
 
-    public override void Evolve()
+    protected override MyIndividual[] EvolutionStrategy(MyIndividual[] population)
     {
         var newPopulation = new MyIndividual[PopulationSize];
 
@@ -21,6 +21,6 @@ public class Xor() : Population<MyIndividual>(PopulationSize, CompareFitness)
 
         newPopulation[PopulationSize - 1] = EliteHotDeckSelection();
 
-        NextGeneration(newPopulation);
+        return newPopulation;
     }
 }

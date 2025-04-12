@@ -13,12 +13,22 @@ public abstract class Population<T> where T : IIndividual, new()
         _currentPopulation = InitPopulation();
     }
 
-    public abstract void Evolve();
-
-    protected void NextGeneration(T[] newPopulation)
+    /// <summary>
+    ///     Replaces the current population with a new generation using the provided <see cref="EvolutionStrategy" />
+    ///     implementation.
+    /// </summary>
+    public void Evolve()
     {
-        _currentPopulation = newPopulation;
+        _currentPopulation = EvolutionStrategy(_currentPopulation);
     }
+
+    /// <summary>
+    ///     Describes how the current generation evolves into the next one.
+    ///     Applies selections and genetic operators such as crossovers and mutations.
+    /// </summary>
+    /// <param name="currentPopulation">The list of individuals representing the current generation. </param>
+    /// <returns>A new list of individuals forming the next generation. </returns>
+    protected abstract T[] EvolutionStrategy(T[] currentPopulation);
 
     public double GetCurrentAverageFitness()
     {
