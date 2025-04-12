@@ -2,13 +2,13 @@
 
 namespace Sinusie.Model;
 
-public class Sinusie() : Population<MyIndividual>(PopulationSize, CompareFitness)
+public class Sinusie() : Population<MyIndividual>(PopulationSize)
 {
     private new const int PopulationSize = 13;
     private const int TournamentSize = 3;
-
-    private static readonly Comparison<MyIndividual> CompareFitness = (x, y) => x.GetFitness().CompareTo(y.GetFitness());
     private static readonly (int x, int y)[] CrossoverIndexes = [(0, 1), (2, 3), (8, 9), (10, 11)];
+
+    protected override Comparison<MyIndividual> CompareFitness => (x, y) => x.GetFitness().CompareTo(y.GetFitness());
 
     protected override MyIndividual[] EvolutionStrategy(MyIndividual[] population)
     {

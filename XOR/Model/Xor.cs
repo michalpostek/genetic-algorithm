@@ -2,12 +2,12 @@
 
 namespace XOR.Model;
 
-public class Xor() : Population<MyIndividual>(PopulationSize, CompareFitness)
+public class Xor() : Population<MyIndividual>(PopulationSize)
 {
     private new const int PopulationSize = 13;
     private const int TournamentSize = 3;
 
-    private static readonly Comparison<MyIndividual> CompareFitness = (x, y) => x.GetFitness().CompareTo(y.GetFitness());
+    protected override Comparison<MyIndividual> CompareFitness => (x, y) => x.GetFitness().CompareTo(y.GetFitness());
 
     protected override MyIndividual[] EvolutionStrategy(MyIndividual[] population)
     {
