@@ -13,9 +13,9 @@ public class Xor() : Population(PopulationSize)
 
     private readonly ParameterEncoder _parameterEncoder = new(ParameterMin, ParameterMax, ParameterLength);
 
-    protected override Comparison<Genome> CompareFitness => (x, y) => GetIndividualFitness(x).CompareTo(GetIndividualFitness(y));
+    protected override Comparison<Individual> CompareFitness => (x, y) => GetFitness(x).CompareTo(GetFitness(y));
 
-    protected override double GetIndividualFitness(Genome individual)
+    protected override double GetFitness(Individual individual)
     {
         var parameterValues = new double[Parameters];
 
@@ -28,14 +28,14 @@ public class Xor() : Population(PopulationSize)
         return FitnessCalculator.Calculate(parameterValues);
     }
 
-    protected override Genome CreateIndividual()
+    protected override Individual CreateIndividual()
     {
-        return new Genome(Parameters * ParameterLength);
+        return new Individual(Parameters * ParameterLength);
     }
 
-    protected override Genome[] EvolutionStrategy(Genome[] population)
+    protected override Individual[] EvolutionStrategy(Individual[] population)
     {
-        var newPopulation = new Genome[PopulationSize];
+        var newPopulation = new Individual[PopulationSize];
 
         for (var i = 0; i < PopulationSize - 1; i++)
         {

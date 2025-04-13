@@ -8,7 +8,7 @@
 public abstract class Population
 {
     protected readonly int PopulationSize;
-    private Genome[] _currentPopulation;
+    private Individual[] _currentPopulation;
 
     protected Population(int populationSize)
     {
@@ -16,11 +16,11 @@ public abstract class Population
         _currentPopulation = InitPopulation();
     }
 
-    protected abstract Comparison<Genome> CompareFitness { get; }
+    protected abstract Comparison<Individual> CompareFitness { get; }
 
-    protected abstract double GetIndividualFitness(Genome individual);
+    protected abstract double GetFitness(Individual individual);
 
-    protected abstract Genome CreateIndividual();
+    protected abstract Individual CreateIndividual();
 
     /// <summary>
     ///     Replaces the current population with a new generation using the provided <see cref="EvolutionStrategy" />
@@ -37,31 +37,31 @@ public abstract class Population
     /// </summary>
     /// <param name="currentPopulation">The list of individuals representing the current generation. </param>
     /// <returns>A new list of individuals forming the next generation. </returns>
-    protected abstract Genome[] EvolutionStrategy(Genome[] currentPopulation);
+    protected abstract Individual[] EvolutionStrategy(Individual[] currentPopulation);
 
     public double GetCurrentAverageFitness()
     {
-        return _currentPopulation.Average(GetIndividualFitness);
+        return _currentPopulation.Average(GetFitness);
     }
 
     public double GetCurrentBestFitness()
     {
         Array.Sort(_currentPopulation, CompareFitness);
 
-        return GetIndividualFitness(_currentPopulation.First());
+        return GetFitness(_currentPopulation.First());
     }
 
-    protected Genome EliteHotDeckSelection()
+    protected Individual EliteHotDeckSelection()
     {
         Array.Sort(_currentPopulation, CompareFitness);
 
         return _currentPopulation.First().Clone();
     }
 
-    protected Genome TournamentSelection(int tournamentSize)
+    protected Individual TournamentSelection(int tournamentSize)
     {
         var random = new Random();
-        var tournament = new Genome[tournamentSize];
+        var tournament = new Individual[tournamentSize];
 
         for (var i = 0; i < tournamentSize; i++)
         {
@@ -73,9 +73,9 @@ public abstract class Population
         return tournament.First().Clone();
     }
 
-    private Genome[] InitPopulation()
+    private Individual[] InitPopulation()
     {
-        var population = new Genome[PopulationSize];
+        var population = new Individual[PopulationSize];
 
         for (var i = 0; i < PopulationSize; i++)
         {

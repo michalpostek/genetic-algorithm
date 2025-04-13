@@ -12,14 +12,14 @@ public class MutatedRug(int populationSize) : Population(populationSize)
     private readonly ParameterEncoder _parameterEncoder = new(ParameterMin, ParameterMax, ParameterLength);
     private readonly int _tournamentSize = (int)Math.Ceiling((double)populationSize / 10);
 
-    protected override Comparison<Genome> CompareFitness => (x, y) => GetIndividualFitness(y).CompareTo(GetIndividualFitness(x));
+    protected override Comparison<Individual> CompareFitness => (x, y) => GetFitness(y).CompareTo(GetFitness(x));
 
-    protected override Genome CreateIndividual()
+    protected override Individual CreateIndividual()
     {
-        return new Genome(ParameterLength * Parameters);
+        return new Individual(ParameterLength * Parameters);
     }
 
-    protected override double GetIndividualFitness(Genome individual)
+    protected override double GetFitness(Individual individual)
     {
         var x1 = _parameterEncoder.GetValue(individual.Chromosomes.Take(ParameterLength).ToArray());
         var x2 = _parameterEncoder.GetValue(individual.Chromosomes.Skip(ParameterLength).Take(ParameterLength).ToArray());
@@ -27,9 +27,9 @@ public class MutatedRug(int populationSize) : Population(populationSize)
         return Math.Sin(x1 * 0.05) + Math.Sin(x2 * 0.05) + 0.4 * Math.Sin(x1 * 0.15) * Math.Sin(x2 * 0.15);
     }
 
-    protected override Genome[] EvolutionStrategy(Genome[] population)
+    protected override Individual[] EvolutionStrategy(Individual[] population)
     {
-        var newPopulation = new Genome[PopulationSize];
+        var newPopulation = new Individual[PopulationSize];
 
         for (var i = 0; i < PopulationSize - 1; i++)
         {

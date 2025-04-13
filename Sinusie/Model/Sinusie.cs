@@ -14,9 +14,9 @@ public class Sinusie() : Population(PopulationSize)
 
     private readonly ParameterEncoder _parameterEncoder = new(ParameterMin, ParameterMax, ParameterLength);
 
-    protected override Comparison<Genome> CompareFitness => (x, y) => GetIndividualFitness(x).CompareTo(GetIndividualFitness(y));
+    protected override Comparison<Individual> CompareFitness => (x, y) => GetFitness(x).CompareTo(GetFitness(y));
 
-    protected override double GetIndividualFitness(Genome individual)
+    protected override double GetFitness(Individual individual)
     {
         var pA = _parameterEncoder.GetValue(individual.Chromosomes.Take(ParameterLength).ToArray());
         var pB = _parameterEncoder.GetValue(individual.Chromosomes.Skip(ParameterLength).Take(ParameterLength).ToArray());
@@ -27,14 +27,14 @@ public class Sinusie() : Population(PopulationSize)
         return diff;
     }
 
-    protected override Genome CreateIndividual()
+    protected override Individual CreateIndividual()
     {
-        return new Genome(ParameterLength * Parameters);
+        return new Individual(ParameterLength * Parameters);
     }
 
-    protected override Genome[] EvolutionStrategy(Genome[] population)
+    protected override Individual[] EvolutionStrategy(Individual[] population)
     {
-        var newPopulation = new Genome[PopulationSize];
+        var newPopulation = new Individual[PopulationSize];
 
         for (var i = 0; i < PopulationSize - 1; i++)
         {
@@ -43,7 +43,7 @@ public class Sinusie() : Population(PopulationSize)
 
         foreach (var (p1, p2) in CrossoverIndexes)
         {
-            var children = Genome.Crossover(newPopulation[p1], newPopulation[p2]);
+            var children = Individual.Crossover(newPopulation[p1], newPopulation[p2]);
 
             newPopulation[p1] = children.Item1;
             newPopulation[p2] = children.Item2;

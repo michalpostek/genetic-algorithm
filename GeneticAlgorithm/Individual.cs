@@ -1,26 +1,26 @@
 ﻿namespace GeneticAlgorithm;
 
 /// <summary>
-///     Represents the genome of an individual in a genetic algorithm.
-///     Provides mutation and crossover methods to modify chromosomes and create new individuals.
+///     Represents an individual in a genetic algorithm.
+///     Provides mutation and crossover methods to modify its chromosomes and create new individuals
 /// </summary>
-public class Genome
+public class Individual
 {
-    public Genome(int length)
+    public Individual(int length)
     {
         Chromosomes = GenerateRandomChromosomes(length);
     }
 
-    private Genome(bool[] chromosomes)
+    private Individual(bool[] chromosomes)
     {
         Chromosomes = chromosomes;
     }
 
     public bool[] Chromosomes { get; }
 
-    public Genome Clone()
+    public Individual Clone()
     {
-        return new Genome(Chromosomes.ToArray());
+        return new Individual(Chromosomes.ToArray());
     }
 
     public void FlipBit(int bits)
@@ -35,7 +35,7 @@ public class Genome
         }
     }
 
-    public static Tuple<Genome, Genome> Crossover(Genome parent1, Genome parent2)
+    public static Tuple<Individual, Individual> Crossover(Individual parent1, Individual parent2)
     {
         var random = new Random();
         var child1 = new bool[parent1.Chromosomes.Length];
@@ -54,7 +54,7 @@ public class Genome
             child2[i] = parent1.Chromosomes[i];
         }
 
-        return new Tuple<Genome, Genome>(new Genome(child1), new Genome(child2));
+        return new Tuple<Individual, Individual>(new Individual(child1), new Individual(child2));
     }
 
     private static bool[] GenerateRandomChromosomes(int chromosomes)
