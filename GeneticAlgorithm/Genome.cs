@@ -11,12 +11,17 @@ public class Genome
         Chromosomes = GenerateRandomChromosomes(length);
     }
 
-    public Genome(bool[] chromosomes)
+    private Genome(bool[] chromosomes)
     {
         Chromosomes = chromosomes;
     }
 
     public bool[] Chromosomes { get; }
+
+    public Genome Clone()
+    {
+        return new Genome(Chromosomes.ToArray());
+    }
 
     public void FlipBit(int bits)
     {
