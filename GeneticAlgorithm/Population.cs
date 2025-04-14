@@ -1,15 +1,14 @@
 ﻿namespace GeneticAlgorithm;
 
 /// <summary>
-///     Represents a population of <typeparamref name="T" /> individuals in a genetic algorithm.
+///     Represents a population of individuals in a genetic algorithm.
 ///     Provides selection methods like tournament and hot deck selection, using the <see cref="CompareFitness" /> method
 ///     to compare individuals' fitness.
 /// </summary>
-/// <typeparam name="T">The type of individual, which must implement the <see cref="IIndividual" /> interface.</typeparam>
-public abstract class Population<T> where T : IIndividual, new()
+public abstract class Population
 {
     protected readonly int PopulationSize;
-    private T[] _currentPopulation;
+    private Individual[] _currentPopulation;
 
     protected Population(int populationSize)
     {
@@ -17,7 +16,11 @@ public abstract class Population<T> where T : IIndividual, new()
         _currentPopulation = InitPopulation();
     }
 
-    protected abstract Comparison<T> CompareFitness { get; }
+    protected abstract Comparison<Individual> CompareFitness { get; }
+
+    protected abstract double GetFitness(Individual individual);
+
+    protected abstract Individual CreateIndividual();
 
     /// <summary>
     ///     Replaces the current population with a new generation using the provided <see cref="EvolutionStrategy" />
@@ -34,44 +37,50 @@ public abstract class Population<T> where T : IIndividual, new()
     /// </summary>
     /// <param name="currentPopulation">The list of individuals representing the current generation. </param>
     /// <returns>A new list of individuals forming the next generation. </returns>
-    protected abstract T[] EvolutionStrategy(T[] currentPopulation);
+    protected abstract Individual[] EvolutionStrategy(Individual[] currentPopulation);
 
     public double GetCurrentAverageFitness()
     {
-        return _currentPopulation.Average(individual => individual.GetFitness());
+        return _currentPopulation.Average(GetFitness);
     }
 
     public double GetCurrentBestFitness()
     {
         Array.Sort(_currentPopulation, CompareFitness);
 
-        return _currentPopulation.First().GetFitness();
+        return GetFitness(_currentPopulation.First());
     }
 
-    protected T EliteHotDeckSelection()
+    protected Individual EliteHotDeckSelection()
     {
         Array.Sort(_currentPopulation, CompareFitness);
 
-        return (T)_currentPopulation.First().Clone();
+        return _currentPopulation.First().Clone();
     }
 
-    protected T TournamentSelection(int tournamentSize)
+    protected Individual TournamentSelection(int tournamentSize)
     {
         var random = new Random();
-        var tournament = new T[tournamentSize];
+        var tournament = new Individual[tournamentSize];
 
-        for (var i = 0; i < tournamentSize; i++) tournament[i] = _currentPopulation[random.Next(_currentPopulation.Length)];
+        for (var i = 0; i < tournamentSize; i++)
+        {
+            tournament[i] = _currentPopulation[random.Next(_currentPopulation.Length)];
+        }
 
         Array.Sort(tournament, CompareFitness);
 
-        return (T)tournament.First().Clone();
+        return tournament.First().Clone();
     }
 
-    private T[] InitPopulation()
+    private Individual[] InitPopulation()
     {
-        var population = new T[PopulationSize];
+        var population = new Individual[PopulationSize];
 
-        for (var i = 0; i < PopulationSize; i++) population[i] = new T();
+        for (var i = 0; i < PopulationSize; i++)
+        {
+            population[i] = CreateIndividual();
+        }
 
         return population;
     }
