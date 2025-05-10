@@ -4,13 +4,36 @@
 ///     Encodes a chromosomes (represented as a binary string) into a value between <c>min</c> and <c>max</c>).
 ///     The binary values are evenly distributed between the minimum and maximum values.
 /// </summary>
-public class ParameterEncoder(int min, int max, int length)
+public class ParameterEncoder
 {
-    private readonly Dictionary<string, double> _valueLookup = CreateValueLookup(min, max, length);
+    private readonly Dictionary<string, double> _lazyValueLookup;
+    private readonly int _min;
+    private readonly double _valueStep;
+
+    public ParameterEncoder(int min, int max, int length)
+    {
+        var entries = (int)Math.Pow(2, length);
+
+        _min = min;
+        _valueStep = (max - min) / (double)(entries - 1);
+        _lazyValueLookup = new Dictionary<string, double>();
+    }
 
     public double GetValue(bool[] chromosomes)
     {
-        return _valueLookup[StringifyChromosomes(chromosomes)];
+        var stringifiedChromosomes = StringifyChromosomes(chromosomes);
+
+        if (_lazyValueLookup.TryGetValue(stringifiedChromosomes, out var cachedValue))
+        {
+            return cachedValue;
+        }
+
+        var offset = Convert.ToInt32(stringifiedChromosomes, 2);
+        var value = _min + offset * _valueStep;
+
+        _lazyValueLookup[stringifiedChromosomes] = value;
+
+        return value;
     }
 
     private static string StringifyChromosomes(bool[] chromosomes)
@@ -23,20 +46,5 @@ public class ParameterEncoder(int min, int max, int length)
         }
 
         return new string(chars);
-    }
-
-    private static Dictionary<string, double> CreateValueLookup(int min, int max, int chromosomes)
-    {
-        var lookup = new Dictionary<string, double>();
-        var entries = (int)Math.Pow(2, chromosomes);
-        var diff = (max - min) / (double)(entries - 1);
-
-        for (var i = 0; i < entries; i++)
-        {
-            var key = Convert.ToString(i, 2).PadLeft(chromosomes, '0');
-            lookup.Add(key, min + diff * i);
-        }
-
-        return lookup;
     }
 }
