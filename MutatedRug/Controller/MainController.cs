@@ -40,12 +40,12 @@ public partial class MainController : Form
         var mutatedRug = new Model.MutatedRug(populationSize);
         var data = new GenerationStats[generations + 1];
 
-        data[0] = new GenerationStats(mutatedRug.GetCurrentAverageFitness(), mutatedRug.GetCurrentBestFitness());
+        data[0] = new GenerationStats(mutatedRug.GetCurrentBestFitness(), mutatedRug.GetCurrentAverageFitness());
 
         for (var i = 0; i < generations; i++)
         {
             mutatedRug.Evolve();
-            data[i + 1] = new GenerationStats(mutatedRug.GetCurrentAverageFitness(), mutatedRug.GetCurrentBestFitness());
+            data[i + 1] = new GenerationStats(mutatedRug.GetCurrentBestFitness(), mutatedRug.GetCurrentAverageFitness());
         }
 
         _evolutionChart.Update(data);
