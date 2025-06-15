@@ -7,6 +7,7 @@
 /// </summary>
 public abstract class Population
 {
+    public static Random _random = null;
     protected readonly int PopulationSize;
     private Individual[] _currentPopulation;
 
@@ -60,12 +61,12 @@ public abstract class Population
 
     protected Individual TournamentSelection(int tournamentSize)
     {
-        var random = new Random();
+        // var random = new Random();
         var tournament = new Individual[tournamentSize];
 
         for (var i = 0; i < tournamentSize; i++)
         {
-            tournament[i] = _currentPopulation[random.Next(_currentPopulation.Length)];
+            tournament[i] = _currentPopulation[_random.Next(_currentPopulation.Length)];
         }
 
         Array.Sort(tournament, CompareFitness);

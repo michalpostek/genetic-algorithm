@@ -5,7 +5,7 @@ namespace MutatedRug.Model;
 public class MutatedRug(int populationSize) : Population(populationSize)
 {
     private const int Parameters = 2;
-    private const int ParameterLength = 4;
+    private const int ParameterLength = 6;
     private const int ParameterMin = 0;
     private const int ParameterMax = 100;
 
@@ -33,7 +33,7 @@ public class MutatedRug(int populationSize) : Population(populationSize)
 
         for (var i = 0; i < PopulationSize - 1; i++)
         {
-            var winner = TournamentSelection(_tournamentSize);
+            var winner = TournamentSelection(5);
             winner.FlipBit(1);
 
             newPopulation[i] = winner;
